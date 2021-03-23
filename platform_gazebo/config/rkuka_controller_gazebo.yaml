@@ -1,0 +1,23 @@
+kuka_lwr_right:
+  # CONTROLLERS USED IN THE EXAMLE
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 100
+
+  # Group Command Controller FRI
+  kuka_group_command_controller_fri:
+    type: kuka_lwr_controllers/GroupCommandControllerFRI
+    root_name: kuka_lwr_right_base_link
+    tip_name: kuka_lwr_right_7_link
+
+  # Joint Group Position Controller -----------------------------
+  kuka_group_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints:
+       - kuka_lwr_right_0_joint
+       - kuka_lwr_right_1_joint
+       - kuka_lwr_right_2_joint
+       - kuka_lwr_right_3_joint
+       - kuka_lwr_right_4_joint
+       - kuka_lwr_right_5_joint
+       - kuka_lwr_right_6_joint

@@ -1,0 +1,158 @@
+<launch>
+	<arg name="robot_name" default="platform_robot_with_hands"/>
+	<arg name="robot_urdf_file" default="$(find platform_gazebo)/robot/$(arg robot_name).urdf.xacro"/>
+	 
+	<!-- Kuka Controllers -->
+	<arg name="controllers" default="kuka_group_position_controller" />
+
+    <!-- Use or Not Pantilt -->
+	<arg name="use_pantilt" default="true"/>
+	
+	<!-- Use or Not Barrett Hand -->
+	<arg name="use_left_bh" default="false"/>
+    <arg name="use_right_bh" default="false"/>
+	
+	<!-- Platform description -->
+	<param name="robot_description" command="$(find xacro)/xacro $(arg robot_urdf_file) use_pantilt:=$(arg use_pantilt) use_left_bh:=$(arg use_left_bh) use_right_bh:=$(arg use_right_bh)"/>
+
+	<arg name="paused" default="false"/>
+	<arg name="use_sim_time" default="true"/>
+	<arg name="gui" default="true"/>
+	<arg name="headless" default="false"/>
+	<arg name="debug" default="false"/>
+
+	<!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<!--<arg name="world_name" value="$(find kuka_lwr_gazebo)/worlds/simple_environment.world"/>-->
+		<arg name="world_name" value="$(find platform_gazebo)/worlds/table_coke_environment.world"/>
+		<arg name="debug" value="$(arg debug)" />
+		<arg name="gui" value="$(arg gui)" />
+		<arg name="paused" value="$(arg paused)"/>
+		<arg name="use_sim_time" value="$(arg use_sim_time)"/>
+		<arg name="headless" value="$(arg headless)"/>
+		<!--<arg name="verbose" value="true" />-->
+	</include>
+
+	<node name="spawn_platform_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)" respawn="false" output="screen" />
+
+	<!-- START KUKA LEFT *************************************************************  -->
+		<!-- load Kuka Left robotHW configurations to rosparam server -->
+		<rosparam command="load" file="$(find platform_gazebo)/config/lkuka_hw_interface.yaml"/>
+
+		<!-- load Kuka Left controller configurations to rosparam server -->
+		<rosparam file="$(find platform_gazebo)/config/lkuka_controller_gazebo.yaml" command="load"/>
+
+		<param name="kuka_lwr_left/robot_description" command="$(find xacro)/xacro '$(find double_lwr_robot)/robot/kuka_lwr_left_robot.urdf.xacro'" />
+
+		<!-- namespace of left arm -->
+		<group ns="kuka_lwr_left">
+			    <node name="controller_spawner_left" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="joint_state_controller $(arg controllers)"/>
+
+				<node name="robot_state_publisher_left" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+					<remap from="/joint_states" to="/kuka_lwr_left/joint_states" />
+				</node>
+		</group>
+
+		
+
+		<!-- Left Barrett Hand -->
+		<group if="$(arg use_left_bh)">
+
+			 <!-- Only Left Barrett Hand Robot Description -->
+			<param name="lbh/robot_description" command="$(find xacro)/xacro '$(find platform_gazebo)/robot/lbh_barrett_hand.urdf.xacro'" />
+
+			<!-- Properties of Left Barrett Hand Controllers -->
+			<rosparam command="load" file="$(find platform_gazebo)/config/lbh_controller_gazebo.yaml"/>
+			<rosparam command="load" file="$(find platform_gazebo)/config/lbh_joint_state_controller.yaml"/>
+
+			<!-- List of Left Barrett Hand Position Controllers -->
+			<arg name="lbh_barrett_hand_controllers" default="lbh_group_position_controller" />
+
+			<group ns="lbh">
+				<!-- Spawn of Position Controllers -->
+				<node name="controller_spawner_lbh" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="joint_state_controller $(arg lbh_barrett_hand_controllers)"/>
+
+				<node name="robot_state_publisher_lbh" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+					<remap from="/joint_states" to="/lbh/joint_states" />
+				</node>
+			</group>
+
+     	</group>
+
+	<!-- END KUKA LEFT *************************************************************  -->
+
+	<!-- START KUKA RIGHT *************************************************************  -->
+
+		<!-- load Kuka Right robotHW configurations to rosparam server -->
+		<rosparam command="load" file="$(find platform_gazebo)/config/rkuka_hw_interface.yaml"/>
+
+		<!-- load Kuka Right controller configurations to rosparam server -->
+		<rosparam file="$(find platform_gazebo)/config/rkuka_controller_gazebo.yaml" command="load"/>
+
+		<param name="kuka_lwr_right/robot_description" command="$(find xacro)/xacro '$(find double_lwr_robot)/robot/kuka_lwr_right_robot.urdf.xacro'" />
+
+		<!-- namespace of right arm -->
+		<group ns="kuka_lwr_right">
+			<node name="controller_spawner_right" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="joint_state_controller $(arg controllers)"/>
+
+			<node name="robot_state_publisher_right" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+				<remap from="/joint_states" to="/kuka_lwr_right/joint_states" />
+			</node>
+		</group>
+
+
+        <!-- Right Barrett Hand -->
+		<group if="$(arg use_right_bh)">
+
+			<!-- Only Right Barrett Hand Robot Description -->
+			<param name="rbh/robot_description" command="$(find xacro)/xacro '$(find platform_gazebo)/robot/rbh_barrett_hand.urdf.xacro'" />
+
+			<!-- Properties of Right Barrett Hand Controllers -->
+			<rosparam command="load" file="$(find platform_gazebo)/config/rbh_controller_gazebo.yaml"/>
+			<rosparam command="load" file="$(find platform_gazebo)/config/rbh_joint_state_controller.yaml"/>
+
+			<!-- List of Right Barrett Hand Position Controllers -->
+			<arg name="rbh_barrett_hand_controllers" default="rbh_group_position_controller" />
+
+			<group ns="rbh">
+				<!-- Spawn of Position Controllers -->
+				<node name="controller_spawner_rbh" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="joint_state_controller $(arg rbh_barrett_hand_controllers)"/>
+
+				<node name="robot_state_publisher_rbh" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+					<remap from="/joint_states" to="/rbh/joint_states" />
+				</node>
+			</group>
+
+     	</group>
+
+	<!-- END KUKA RIGHT *************************************************************  -->
+
+	<!-- START PANTILT *************************************************************  -->
+
+	<group if="$(arg use_pantilt)">
+
+		<!-- pantilt controllers -->
+		<arg name="pantilt_controllers" default="pantilt_group_position_controller" />
+
+		<param name="pantilt/robot_description" command="$(find xacro)/xacro '$(find pantilt_gazebo)/robot/pantilt_gazebo.urdf.xacro'" />
+
+		<!-- load robotHW pantilt configurations to rosparam server -->
+		<rosparam command="load" file="$(find pantilt_gazebo)/config/pantilt_hw_interface.yaml"/>
+
+		<!-- load all pantitlt controller configurations to rosparam server -->
+		<rosparam file="$(find pantilt_gazebo)/config/pantilt_control.yaml" command="load"/>
+
+		<!-- namespace pantilt -->
+		<group ns="pantilt">
+			<!-- spawn only desired controllers in current namespace -->
+			<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="joint_state_controller $(arg pantilt_controllers)"/>
+		</group>
+
+		<node name="robot_state_publisher_pantilt" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+				<remap from="/joint_states" to="/pantilt/joint_states" />
+		</node>
+		
+	</group>
+<!-- END PANTILT *************************************************************  -->
+
+</launch>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="platform_robot_with_hands">
+	
+  <!-- define PI variable -->
+  <xacro:property name="pi" value="3.1415926535897931" />
+
+  <!-- Include kuka lwr model -->
+  <xacro:include filename="$(find kuka_lwr_description)/model/kuka_lwr_urdf.xacro"/>
+  
+  <!-- Include trunk model -->
+  <xacro:include filename="$(find trunk_description)/model/trunk.urdf.xacro"/>
+
+  <!-- Include gazebo kuka lwr -->
+  <xacro:include filename="$(find kuka_lwr_description)/model/kuka_lwr.gazebo.xacro"/>
+
+  <!-- Include gazebo trunk -->
+  <xacro:include filename="$(find trunk_description)/model/trunk.gazebo.xacro"/>
+
+  <xacro:if value="$(arg use_pantilt)">
+	<!-- Include pan tilt model -->
+	<xacro:include filename="$(find pantilt_description)/model/pantilt_gazebo.urdf.xacro"/>
+  </xacro:if>
+  
+  <!-- Create Kuka LWR Right -->
+  <xacro:kuka_lwr parent="trunk_link" name="kuka_lwr_right">
+	<origin xyz="0.17 0 1.45" rpy="0 ${pi/2.0} 0"/>
+  </xacro:kuka_lwr>
+
+  <!-- Create Kuka LWR Left -->
+  <xacro:kuka_lwr parent="trunk_link" name="kuka_lwr_left">
+	<origin xyz="-0.17 0 1.45" rpy="0 ${pi/2.0} ${pi}"/>
+  </xacro:kuka_lwr>
+
+ <!-- Create Gazebo Kuka Right -->
+ <xacro:kuka_lwr_gazebo name="kuka_lwr_right" />
+
+ <!-- Create Gazebo Kuka Left -->
+ <xacro:kuka_lwr_gazebo name="kuka_lwr_left" />
+
+ <!-- Create Gazebo Trunk -->
+ <xacro:trunk_gazebo />
+
+ <!-- Create Pantilt -->
+ <xacro:if value="$(arg use_pantilt)">
+	<!-- Pan tilt -->
+	<xacro:pantilt parent="trunk_link" name="pantilt" namespace="pantilt">
+		<origin xyz="0 0 1.695" rpy="0 0 0"/>
+	</xacro:pantilt>
+ </xacro:if>
+
+ 
+ <!-- Create Barrett Hand -->
+ <!-- Available choices: bh282.urdf.xacro, bh280.urdf.xacro -->	
+ <xacro:include filename="$(find barrett_hand_description)/urdf/ip_bh280.urdf.xacro"/>
+ <!--<xacro:include filename="$(find platform_gazebo)/robot/barrett_hand/bh_gazebo.urdf.xacro"/>-->
+
+ <xacro:if value="$(arg use_right_bh)">
+
+	<xacro:bhand_macro name="rbh" namespace="/rbh" parent="kuka_lwr_right_7_link">
+		<origin xyz="0 0 0" rpy="0 0 0" />
+	</xacro:bhand_macro>
+
+   <!--<xacro:bh_ros_control_gazebo name="rbh_gazebo" namespace="/rbh"/>-->
+
+ </xacro:if>
+
+ <xacro:if value="$(arg use_left_bh)">
+
+	<xacro:bhand_macro name="lbh" namespace="/lbh" parent="kuka_lwr_left_7_link">
+		<origin xyz="0 0 0" rpy="0 0 ${pi}" />
+	</xacro:bhand_macro>
+
+   <!--<xacro:bh_ros_control_gazebo name="lbh_gazebo" namespace="/lbh"/>-->
+
+ </xacro:if>
+ 
+</robot>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lbh_barrett_hand_robot">
+	
+  <!-- define PI variable -->
+  <xacro:property name="pi" value="3.1415926535897931" />
+
+  <!-- Create Barrett Hand -->
+  <!-- Available choices: bh282.urdf.xacro, bh280.urdf.xacro -->	
+  <xacro:include filename="$(find barrett_hand_description)/urdf/ip_bh280.urdf.xacro" />
+
+  <link name="kuka_lwr_left_7_link"/>
+
+  <xacro:bhand_macro name="lbh" namespace="/lbh" parent="kuka_lwr_left_7_link">
+		<origin xyz="0 0 0" rpy="0 0 ${pi}" />
+  </xacro:bhand_macro>
+ 
+</robot>
