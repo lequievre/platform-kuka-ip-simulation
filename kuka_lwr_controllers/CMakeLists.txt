@@ -84,7 +84,7 @@ catkin_package(
     realtime_tools
     #trac_ik_lib
   INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME} TypeIRML ReflexxesTypeII
+  LIBRARIES ${PROJECT_NAME}
 )
 
 add_library(${PROJECT_NAME}_pid
@@ -94,26 +94,26 @@ add_library(${PROJECT_NAME}_pid
 
 
 # The add_library() CMake function is used to specify libraries to build. By default catkin builds shared libraries.
-add_library(${PROJECT_NAME}
-  src/group_command_controller_fri.cpp
-  src/gravity_compensation_controller.cpp
-  src/simple_cartesian_impedance_controller.cpp
-  src/one_task_inverse_kinematics.cpp
-  src/cartesian_velocity_control.cpp
-  src/torque_based_position.cpp
-  src/torque_based_position_gazebo.cpp
-  src/computed_torque_controller.cpp
-  src/cartesian_computed_torque_controller.cpp
-  src/basic_torque_controller.cpp
-  src/operational_space_controller.cpp
-)
+#add_library(${PROJECT_NAME}
+#  src/group_command_controller_fri.cpp
+#  src/gravity_compensation_controller.cpp
+#  src/simple_cartesian_impedance_controller.cpp
+#  src/one_task_inverse_kinematics.cpp
+#  src/cartesian_velocity_control.cpp
+#  src/torque_based_position.cpp
+#  src/torque_based_position_gazebo.cpp
+#  src/computed_torque_controller.cpp
+#  src/cartesian_computed_torque_controller.cpp
+#  src/basic_torque_controller.cpp
+#  src/operational_space_controller.cpp
+#)
 
 # Link a target to given libraries.
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} TypeIRML ReflexxesTypeII ${PROJECT_NAME}_pid)
+#target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} TypeIRML ReflexxesTypeII ${PROJECT_NAME}_pid)
 
  
 # Add a dependencies of generation message, to be sure that all headers files of all messages are generated before !
-add_dependencies(kuka_lwr_controllers ${PROJECT_NAME}_generate_messages_cpp  FRILibrary reflexxes)
+#add_dependencies(kuka_lwr_controllers ${PROJECT_NAME}_generate_messages_cpp  FRILibrary reflexxes)
 
 
 
