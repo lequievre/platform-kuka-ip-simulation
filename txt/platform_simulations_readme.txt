@@ -5,4 +5,7 @@ rostopic pub -1 /pantilt/pantilt_group_position_controller/command std_msgs/Floa
 
 rostopic pub -1 /kuka_lwr_left/kuka_group_position_controller/command std_msgs/Float64MultiArray "data: [0.7,0.5,0.0,0.0,0.0,0.0,0.0]"
 
+rosrun image_view image_view image:=/pantilt/camera1/image_raw
+rosrun image_view image_view image:=/pantilt/camera2/image_raw
+
 
