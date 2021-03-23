@@ -8,7 +8,7 @@
 	<arg name="robot_name" default="platform_robot"/>
 	<arg name="robot_urdf_file" default="$(find platform_gazebo)/robot/$(arg robot_name).urdf.xacro"/>
 	 
-	<arg name="controllers" default="kuka_group_command_controller_fri " />
+	<arg name="controllers" default="kuka_group_position_controller " />
 	<arg name="active_controllers" default="operational_space_controller" />
 	
 	
@@ -93,7 +93,7 @@
 		<!-- pantilt controllers -->
 		<arg name="pantilt_controllers" default="pantilt_group_position_controller" />
 
-		<param name="pantilt/robot_description" command="$(find xacro)/xacro.py '$(find pantilt_gazebo)/robot/pantilt_gazebo.urdf.xacro'" />
+		<param name="pantilt/robot_description" command="$(find xacro)/xacro '$(find pantilt_gazebo)/robot/pantilt_gazebo.urdf.xacro'" />
 
 		<!-- load robotHW pantilt configurations to rosparam server -->
 		<rosparam command="load" file="$(find pantilt_gazebo)/config/pantilt_hw_interface.yaml"/>

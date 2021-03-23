@@ -11,6 +11,19 @@ kuka_lwr_left:
       - kuka_lwr_left_4_joint
       - kuka_lwr_left_5_joint
       - kuka_lwr_left_6_joint
+      
+      
+  # Joint Group Position Controller -----------------------------
+  kuka_group_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints:
+       - kuka_lwr_left_0_joint
+       - kuka_lwr_left_1_joint
+       - kuka_lwr_left_2_joint
+       - kuka_lwr_left_3_joint
+       - kuka_lwr_left_4_joint
+       - kuka_lwr_left_5_joint
+       - kuka_lwr_left_6_joint
 
   # CONTROLLERS USED IN THE EXAMLE
   joint_state_controller:
@@ -124,6 +137,7 @@ kuka_lwr_left:
     type: kuka_lwr_controllers/HarshAdmittanceControllerROS
     root_name: kuka_lwr_left_base_link
     tip_name: kuka_lwr_left_7_link
+    
 kuka_lwr_right:
 
   # THIS CONFIGURATION IS ACTUALLY SENDING TAU = K*Q
@@ -137,6 +151,18 @@ kuka_lwr_right:
       - kuka_lwr_right_4_joint
       - kuka_lwr_right_5_joint
       - kuka_lwr_right_6_joint
+      
+  # Joint Group Position Controller -----------------------------
+  kuka_group_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints:
+       - kuka_lwr_right_0_joint
+       - kuka_lwr_right_1_joint
+       - kuka_lwr_right_2_joint
+       - kuka_lwr_right_3_joint
+       - kuka_lwr_right_4_joint
+       - kuka_lwr_right_5_joint
+       - kuka_lwr_right_6_joint    
 
   # CONTROLLERS USED IN THE EXAMLE
   joint_state_controller:
