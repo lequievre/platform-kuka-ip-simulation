@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:property name="InterfacePosition" value="hardware_interface/PositionJointInterface"/>
+	<xacro:property name="InterfaceEffort" value="hardware_interface/EffortJointInterface"/>
+	
+	<xacro:property name="mechanical_reduction" value="1.0" />
+	<xacro:property name="motor_torque_constant" value="1.0" />
+
+	<xacro:macro name="bh280_transmission" params="name">
+		
+		<transmission name="${name}_j11_transmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${name}_j11_joint">
+			   <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			</joint>
+			<actuator name="${name}_j11">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			  <mechanicalReduction>${mechanical_reduction}</mechanicalReduction>
+			  <motorTorqueConstant>${motor_torque_constant}</motorTorqueConstant>
+			</actuator>
+		</transmission>
+		
+		<transmission name="${name}_j12_transmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${name}_j12_joint">
+			   <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			</joint>
+			<actuator name="${name}_j12">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			  <mechanicalReduction>${mechanical_reduction}</mechanicalReduction>
+			  <motorTorqueConstant>${motor_torque_constant}</motorTorqueConstant>
+			</actuator>
+		</transmission>
+		
+		<transmission name="${name}_j13_transmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${name}_j13_joint">
+			   <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			</joint>
+			<actuator name="${name}_j13">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			  <mechanicalReduction>${mechanical_reduction}</mechanicalReduction>
+			  <motorTorqueConstant>${motor_torque_constant}</motorTorqueConstant>
+			</actuator>
+		</transmission>
+		
+		<transmission name="${name}_j21_transmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${name}_j21_joint">
+			   <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			</joint>
+			<actuator name="${name}_j21">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			  <mechanicalReduction>${mechanical_reduction}</mechanicalReduction>
+			  <motorTorqueConstant>${motor_torque_constant}</motorTorqueConstant>
+			</actuator>
+		</transmission>
+		
+		<transmission name="${name}_j22_transmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${name}_j22_joint">
+ 			   <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			</joint>
+			<actuator name="${name}_j22">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			  <mechanicalReduction>${mechanical_reduction}</mechanicalReduction>
+			  <motorTorqueConstant>${motor_torque_constant}</motorTorqueConstant>
+			</actuator>
+		</transmission>
+		
+		<transmission name="${name}_j23_transmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${name}_j23_joint">
+			   <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			</joint>
+			<actuator name="${name}_j23">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			  <mechanicalReduction>${mechanical_reduction}</mechanicalReduction>
+			  <motorTorqueConstant>${motor_torque_constant}</motorTorqueConstant>
+			</actuator>
+		</transmission>
+		
+		<transmission name="${name}_j32_transmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${name}_j32_joint">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			</joint>
+			<actuator name="${name}_j32">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			  <mechanicalReduction>${mechanical_reduction}</mechanicalReduction>
+			  <motorTorqueConstant>${motor_torque_constant}</motorTorqueConstant>
+			</actuator>
+		</transmission>
+		
+		
+		<transmission name="${name}_j33_transmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${name}_j33_joint">
+ 			   <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			</joint>
+			<actuator name="${name}_j33">
+			  <hardwareInterface>${InterfacePosition}</hardwareInterface>
+			  <mechanicalReduction>${mechanical_reduction}</mechanicalReduction>
+			  <motorTorqueConstant>${motor_torque_constant}</motorTorqueConstant>
+			</actuator>
+		</transmission>
+	
+	</xacro:macro>
+
+</robot>

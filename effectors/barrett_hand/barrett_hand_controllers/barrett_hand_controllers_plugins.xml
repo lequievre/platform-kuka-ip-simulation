@@ -1,0 +1,7 @@
+<library path="lib/libbarrett_hand_controllers">
+	<class name="barrett_hand_controllers/BarrettHandGroupPosition" type="barrett_hand_controllers::BarrettHandGroupPosition" base_class_type="controller_interface::ControllerBase">
+		<description>
+			Info...
+		</description>
+	</class>
+</library>
