@@ -26,6 +26,7 @@ roslaunch platform_gazebo platform_gazebo_with_hands.launch use_left_bh:=true us
 roslaunch platform_gazebo platform_gazebo_with_hands.launch use_left_bh:=true use_pantilt:=false<br/>
 
 * options :<br/>
+
 use_pantilt:=true or false<br/>
 use_left_bh:=true or false<br/>
 use_right_bh:=true or false<br/>
