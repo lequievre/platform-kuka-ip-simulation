@@ -25,6 +25,10 @@ Arms, Pantilt and barrett hand :
 roslaunch platform_gazebo platform_gazebo_with_hands.launch use_left_bh:=true use_right_bh:=true<br/>
 roslaunch platform_gazebo platform_gazebo_with_hands.launch use_left_bh:=true use_pantilt:=false<br/>
 
+* options :
+use_pantilt:=true or false<br/>
+use_left_bh:=true or false<br/>
+use_right_bh:=true or false<br/>
 
 
 How to move Barrett Hand : (namespace 'rbh' means 'right barrett hand', namespace 'lbh' means 'left barrett hand')
